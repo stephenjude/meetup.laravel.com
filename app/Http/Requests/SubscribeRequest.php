@@ -2,21 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Models\EmailList;
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Rules\EmailListSubscriptionRule;
 
 class SubscribeRequest extends FormRequest
 {
-    public function rules(): array
+    public function rules() : array
     {
         return [
-            'email' => ['required', 'email', new EmailListSubscriptionRule($this->emailList())],
+            'email' => ['required', 'email', 'unique:email_list,email,'],
         ];
     }
 
-    public function emailList(): EmailList
-    {
-        return EmailList::where('name', 'meetup.laravel.com')->first();
-    }
 }
